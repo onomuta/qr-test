@@ -27,7 +27,7 @@ function decodeImageFromBase64(data, callback){
 }
 
 
-function readLoop(){
+document.getElementById("action").addEventListener('click', function(){
   if(localStream) {
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -46,18 +46,15 @@ function readLoop(){
     ctx.drawImage(video, 0, 0, w, h);
 
     decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
-      // if(result == "error decoding QR Code"){
+      if(result == "error decoding QR Code"){
 
-      // }else{
+      }else{
         alert(result);
-      // }          
+      }          
         
     });
   }
-  readLoop();
 }
-
-readLoop();
 
 
 // document.getElementById("action").addEventListener('click', function() {
