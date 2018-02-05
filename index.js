@@ -46,11 +46,11 @@ function readLoop(){
     ctx.drawImage(video, 0, 0, w, h);
 
     decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
-      if(result == "error decoding QR Code"){
+      // if(result == "error decoding QR Code"){
 
-      }else{
+      // }else{
         alert(result);
-      }          
+      // }          
         
     });
   }
