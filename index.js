@@ -2,29 +2,29 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
   var video = document.getElementById('video');
   var localStream = null;
 
-  // リアカメラを使用.
-  //navigator.getUserMedia({video: true, audio: false},
-  navigator.getUserMedia(
-      {
-          audio: false,
-          video: { facingMode: { exact: "environment" } }
-      },
-      function(stream) {
-          // mobile safariでは動作しない.
-          //window.URL = window.URL || window.webkitURL;
-          //video.src = window.URL.createObjectURL(stream);
-          video.srcObject = stream;
-          localStream = stream;
-      },
-      function(err) {
-          console.log(err);
-      }
-  );
-
-  function decodeImageFromBase64(data, callback){
-      qrcode.callback = callback;
-      qrcode.decode(data)
+// リアカメラを使用.
+//navigator.getUserMedia({video: true, audio: false},
+navigator.getUserMedia(
+  {
+    audio: false,
+    video: { facingMode: { exact: "environment" } }
+  },
+  function(stream) {
+    // mobile safariでは動作しない.
+    //window.URL = window.URL || window.webkitURL;
+    //video.src = window.URL.createObjectURL(stream);
+    video.srcObject = stream;
+    localStream = stream;
+  },
+  function(err) {
+    console.log(err);
   }
+);
+
+function decodeImageFromBase64(data, callback){
+  qrcode.callback = callback;
+  qrcode.decode(data)
+}
 
 
 function readLoop(){
