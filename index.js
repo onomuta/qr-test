@@ -26,31 +26,65 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
       qrcode.decode(data)
   }
 
-  document.getElementById("action").addEventListener('click', function() {
-    if(localStream) {
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
-      var img = document.getElementById('img');
 
-      //videoの縦幅横幅を取得
-      // var w = video.offsetWidth;
-      var w = video.offsetWidth/1.8; //縦横比修正
-      var h = video.offsetHeight;
+function readLoop(){
+  if(localStream) {
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var img = document.getElementById('img');
 
-      //同じサイズをcanvasに指定
-      canvas.setAttribute("width", w);
-      canvas.setAttribute("height", h);
+    //videoの縦幅横幅を取得
+    // var w = video.offsetWidth;
+    var w = video.offsetWidth/1.8; //縦横比修正
+    var h = video.offsetHeight;
 
-      //canvasにコピー
-      ctx.drawImage(video, 0, 0, w, h);
+    //同じサイズをcanvasに指定
+    canvas.setAttribute("width", w);
+    canvas.setAttribute("height", h);
 
-      decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
-          if(result == "error decoding QR Code"){
+    //canvasにコピー
+    ctx.drawImage(video, 0, 0, w, h);
 
-          }else{
-            alert(result);
-          }          
-          
-      });
-    }
-  },false);
+    decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
+      if(result == "error decoding QR Code"){
+
+      }else{
+        alert(result);
+      }          
+        
+    });
+  }
+  readLoop();
+}
+
+readLoop();
+
+
+// document.getElementById("action").addEventListener('click', function() {
+//   if(localStream) {
+//     var canvas = document.getElementById('canvas');
+//     var ctx = canvas.getContext('2d');
+//     var img = document.getElementById('img');
+
+//     //videoの縦幅横幅を取得
+//     // var w = video.offsetWidth;
+//     var w = video.offsetWidth/1.8; //縦横比修正
+//     var h = video.offsetHeight;
+
+//     //同じサイズをcanvasに指定
+//     canvas.setAttribute("width", w);
+//     canvas.setAttribute("height", h);
+
+//     //canvasにコピー
+//     ctx.drawImage(video, 0, 0, w, h);
+
+//     decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
+//         if(result == "error decoding QR Code"){
+
+//         }else{
+//           alert(result);
+//         }          
+        
+//       });
+//     }
+//   },false);
