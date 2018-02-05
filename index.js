@@ -60,25 +60,25 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
   }
 
   document.getElementById("action").addEventListener('click', function() {
-      if(localStream) {
-          var canvas = document.getElementById('canvas');
-          var ctx = canvas.getContext('2d');
-          var img = document.getElementById('img');
+    if(localStream) {
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var img = document.getElementById('img');
 
-          //videoの縦幅横幅を取得
-          // var w = video.offsetWidth;
-          var w = video.offsetWidth/1.8; //縦横比修正
-          var h = video.offsetHeight;
+      //videoの縦幅横幅を取得
+      // var w = video.offsetWidth;
+      var w = video.offsetWidth/1.8; //縦横比修正
+      var h = video.offsetHeight;
 
-          //同じサイズをcanvasに指定
-          canvas.setAttribute("width", w);
-          canvas.setAttribute("height", h);
+      //同じサイズをcanvasに指定
+      canvas.setAttribute("width", w);
+      canvas.setAttribute("height", h);
 
-          //canvasにコピー
-          ctx.drawImage(video, 0, 0, w, h);
+      //canvasにコピー
+      ctx.drawImage(video, 0, 0, w, h);
 
-          decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
-              alert(result);
-          });
-      }
+      decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
+          alert(result);
+      });
+    }
   },false);
