@@ -30,8 +30,9 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
 
 
   
+function loop(){
 
-document.getElementById("action").addEventListener('click', function() {
+// document.getElementById("action").addEventListener('click', function() {
   if(localStream) {
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -58,4 +59,11 @@ document.getElementById("action").addEventListener('click', function() {
       
     });
   };
-},false);
+// },false);
+
+
+
+  // console.log('loop!');
+}
+
+setInterval(loop,200);
