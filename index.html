@@ -27,10 +27,20 @@
   <script type="text/javascript" src="jsqrcode/databr.js"></script>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
+  <!-- <canvas id="canvas"></canvas>
   <div id="videobox">
     <video id="video" autoplay playsinline></video>
+  </div> -->
+
+  <video id="video" width="400" height="300" autoplay muted playsinline></video>
+  <img id="img">
+  <div style="display:none">
+      <canvas id="canvas"></canvas>
   </div>
+
+  <input type="button" id="action" value="解析"/>
+
+
   <script src="index.js"></script>
 </body>
 </html>
