@@ -1,36 +1,3 @@
-// const medias = {audio : false, video : {
-//   facingMode : {
-//     exact : "environment"
-//   }
-// }},
-// video  = document.getElementById("video"),
-// canvas = document.getElementById("canvas"),
-// ctx    = canvas.getContext("2d");
-
-// navigator.getUserMedia(medias, successCallback, errorCallback);
-
-// requestAnimationFrame(draw);
-
-// function successCallback(stream) {
-// video.srcObject = stream;
-// };
-
-// function errorCallback(err) {
-// alert(err);
-// };
-
-// function draw() {
-// canvas.width  = window.innerWidth;
-// canvas.height = window.innerHeight;
-// ctx.drawImage(video, 0, 0);
-
-// requestAnimationFrame(draw);
-// }
-
-
-
-
-
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
   var video = document.getElementById('video');
   var localStream = null;
@@ -78,7 +45,12 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
       ctx.drawImage(video, 0, 0, w, h);
 
       decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
-          alert(result);
+          if(result == "error decoding QR Code"){
+
+          }else{
+            alert(result);
+          }          
+          
       });
     }
   },false);
