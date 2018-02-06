@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Video</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+  <link rel="stylesheet" href="index.css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- jsqrcode -->
+  <!-- https://github.com/LazarSoft/jsqrcode -->
+  <script type="text/javascript" src="jsqrcode/grid.js"></script>
+  <script type="text/javascript" src="jsqrcode/version.js"></script>
+  <script type="text/javascript" src="jsqrcode/detector.js"></script>
+  <script type="text/javascript" src="jsqrcode/formatinf.js"></script>
+  <script type="text/javascript" src="jsqrcode/errorlevel.js"></script>
+  <script type="text/javascript" src="jsqrcode/bitmat.js"></script>
+  <script type="text/javascript" src="jsqrcode/datablock.js"></script>
+  <script type="text/javascript" src="jsqrcode/bmparser.js"></script>
+  <script type="text/javascript" src="jsqrcode/datamask.js"></script>
+  <script type="text/javascript" src="jsqrcode/rsdecoder.js"></script>
+  <script type="text/javascript" src="jsqrcode/gf256poly.js"></script>
+  <script type="text/javascript" src="jsqrcode/gf256.js"></script>
+  <script type="text/javascript" src="jsqrcode/decoder.js"></script>
+  <script type="text/javascript" src="jsqrcode/qrcode.js"></script>
+  <script type="text/javascript" src="jsqrcode/findpat.js"></script>
+  <script type="text/javascript" src="jsqrcode/alignpat.js"></script>
+  <script type="text/javascript" src="jsqrcode/databr.js"></script>
+</head>
+<body>
+  <!-- <canvas id="canvas"></canvas>
+  <div id="videobox">
+    <video id="video" autoplay playsinline></video>
+  </div> -->
+
+  <video id="video" width="400" height="300" autoplay muted playsinline></video>
+  <img id="img">
+  <div style="display:none">
+      <canvas id="canvas"></canvas>
+  </div>
+
+
+  <div style="background:white; padding:50px; text-align:center; font-size: 50pt;" id="action">読み込み</div>
+  <a href="test.html" style="color:#ccc">=>サンプルQRコード</a>
+  
+
+
+  <script src="index-qr.js"></script>
+</body>
+</html>
