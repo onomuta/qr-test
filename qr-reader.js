@@ -54,7 +54,11 @@ function loop(){
       if(result == "error decoding QR Code"){
 
       }else{
-        alert(result);
+        // alert(result);
+
+
+        var e = document.getElementById('result');
+        e.textContent = result;
       }          
       
     });
