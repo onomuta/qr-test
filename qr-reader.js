@@ -48,10 +48,8 @@ function loop(){
     canvas.setAttribute("height", h);
 
 
-
-    ctx.scale(2,2);
     //canvasにコピー
-    ctx.drawImage(video, 0, 0, w, h);
+    ctx.drawImage(video, 0, 0, w * 2, h * 2);
 
     decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
       if(result == "error decoding QR Code"){
