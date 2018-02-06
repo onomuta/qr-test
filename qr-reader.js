@@ -5,25 +5,25 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
   // リアカメラを使用.
   //navigator.getUserMedia({video: true, audio: false},
   navigator.getUserMedia(
-      {
-          audio: false,
-          video: { facingMode: { exact: "environment" } }
-      },
-      function(stream) {
-          // mobile safariでは動作しない.
-          //window.URL = window.URL || window.webkitURL;
-          //video.src = window.URL.createObjectURL(stream);
-          video.srcObject = stream;
-          localStream = stream;
-      },
-      function(err) {
-          console.log(err);
-      }
+    {
+      audio: false,
+      video: { facingMode: { exact: "environment" } }
+    },
+    function(stream) {
+      // mobile safariでは動作しない.
+      //window.URL = window.URL || window.webkitURL;
+      //video.src = window.URL.createObjectURL(stream);
+      video.srcObject = stream;
+      localStream = stream;
+    },
+    function(err) {
+      console.log(err);
+    }
   );
 
   function decodeImageFromBase64(data, callback){
-      qrcode.callback = callback;
-      qrcode.decode(data)
+    qrcode.callback = callback;
+    qrcode.decode(data)
   }
 
 
@@ -49,7 +49,7 @@ function loop(){
 
 
     //canvasにコピー
-    ctx.drawImage(video, 0, 0, w * 2, h * 2);
+    ctx.drawImage(video, 0, 0, w, h);
 
     decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
       if(result == "error decoding QR Code"){
