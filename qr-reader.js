@@ -47,6 +47,9 @@ function loop(){
     canvas.setAttribute("width", w);
     canvas.setAttribute("height", h);
 
+
+
+    ctx.scale(2,2);
     //canvasにコピー
     ctx.drawImage(video, 0, 0, w, h);
 

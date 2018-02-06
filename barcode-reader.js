@@ -17,7 +17,7 @@ Quagga.init({
 
   },
   decoder : {
-    readers : ["code_128_reader"]
+    readers : ["ean_reader"]
   }
 }, function(err) {
   if (err) {
