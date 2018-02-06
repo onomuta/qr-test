@@ -1,140 +1,101 @@
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
-var video = document.getElementById('video');
-var localStream = null;
 
-// リアカメラを使用.
-//navigator.getUserMedia({video: true, audio: false},
-navigator.getUserMedia(
-    {
-        audio: false,
-        video: { facingMode: { exact: "environment" } }
+Quagga.init({
+  inputStream : {
+    name : "Live",
+    type : "LiveStream",
+    target: document.querySelector('#c1'),    // Or '#yourElement' (optional)
+    constraints: {
+      width: {min: 640},
+      height: {min: 480},
+      aspectRatio: {min: 1, max: 100},
+      // facingMode: "environment" // or "user" for the front camera
     },
-    function(stream) {
-        // mobile safariでは動作しない.
-        //window.URL = window.URL || window.webkitURL;
-        //video.src = window.URL.createObjectURL(stream);
-        video.srcObject = stream;
-        localStream = stream;
+    locator: {
+      patchSize: "medium",
+      halfSample: true
     },
-    function(err) {
-        console.log(err);
-    }
-);
 
-function decodeImageFromBase64(data, callback){
-    qrcode.callback = callback;
-    qrcode.decode(data)
-}
-
-  
-function loop(){
-// document.getElementById("action").addEventListener('click', function() {
-  if(localStream) {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var img = document.getElementById('img');
-
-    //videoの縦幅横幅を取得
-    // var w = video.offsetWidth;
-    var w = video.offsetWidth/1.8; //縦横比修正
-    var h = video.offsetHeight;
-
-    //同じサイズをcanvasに指定
-    canvas.setAttribute("width", w);
-    canvas.setAttribute("height", h);
-
-    //canvasにコピー
-    ctx.drawImage(video, 0, 0, w, h);
-
-    decodeImageFromBase64(canvas.toDataURL('image/png'), function(result) {
-      if(result == "error decoding QR Code"){
-
-      }else{
-        alert(result);
-      }          
-      
-    });
-  };
-// },false);
-
-
-class BarcodeReader {
-  constructor() {
-    Quagga.onProcessed(this._onProcessed.bind(this));
-    Quagga.onDetected(this._onDetected.bind(this));
+  },
+  decoder : {
+    readers : ["code_128_reader"]
   }
-
-  get config() {
-    return {
-      inputStream: {
-        target: '#preview',
-        size: 640,
-        singleChannel: false
-      },
-      locator: {
-        patchSize: "medium",
-        halfSample: true
-      },
-      decoder: {
-        readers: [{
-          format: "code_128_reader",
-          config: {}
-        }]
-      },
-      numOfWorker: navigator.hardwareConcurrency || 1,
-      locate: true,
-      src: null
-    };
+}, function(err) {
+  if (err) {
+    console.log(err);
+    return
   }
+  console.log("Initialization finished. Ready to start");
+  Quagga.start();
+});
 
-  
-  decode(src) {
-    const config = Object.assign({}, this.config, { src: src });
 
-    return new Promise((resolve, reject) => {
-      Quagga.decodeSingle(config, result => {
-        resolve(result);
-      });
-    })
-  }
+// Make sure, QuaggaJS draws frames an lines around possible 
+// barcodes on the live stream
+Quagga.onProcessed(function(result) {
+  var drawingCtx = Quagga.canvas.ctx.overlay,
+    drawingCanvas = Quagga.canvas.dom.overlay;
 
-  /** 処理が完了したときに実行される*/
-  _onProcessed(data) {
-    console.log('onProccessed', data);
-    const ctx = Quagga.canvas.ctx.overlay;
-    const canvas = Quagga.canvas.dom.overlay;
-		if (!data) { return; }
-    // 認識したバーコードを囲む
-    if (data.boxes) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const hasNotRead = box => box !== data.box;
-      data.boxes.filter(hasNotRead).forEach(box => {
-        Quagga.ImageDebug.drawPath(box, {x:0, y:1}, ctx, {color: 'green', lineWidth: 2});
+  if (result) {
+    console.log(result);
+    
+    if (result.boxes) {
+      drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+      result.boxes.filter(function (box) {
+        return box !== result.box;
+      }).forEach(function (box) {
+        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
       });
     }
-    if (data.box) {
-      Quagga.ImageDebug.drawPath(data.box, {x:0, y:1}, ctx, {color: 'blue', lineWidth: 2});
+
+    if (result.box) {
+      Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
     }
-    if (data.codeResult && data.codeResult.code) {
-      Quagga.ImageDebug.drawPath(data.line, {x:'x', y:'y'}, ctx, {color: 'red', lineWidth: 3});
+
+    if (result.codeResult && result.codeResult.code) {
+      Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
     }
   }
+});
 
-  /**
-   * バーコード読み取りが成功したときに実行される
-   */
-  _onDetected(data) {
-    alert(data);
-  }
-  
-  getDataURL() {
-    return Quagga.canvas.dom.image.toDataURL();
-  }
-}
 
-}
 
-setInterval(loop,200);
+
+
+
+
+
+// Quagga.decodeSingle({
+//   decoder: {
+//       readers: ["code_128_reader"] // List of active readers
+//   },
+//   locate: true, // try to locate the barcode in the image
+//   src: 'img/code_128.gif' // or 'data:image/jpg;base64,' + data
+// }, function(result){
+
+//   if(result.codeResult) {
+//       console.log("result", result.codeResult.code);
+//   } else {
+//       console.log("not detected");
+//   }
+// });
+
+
+
+// onload = function() {
+//   draw();
+// };
+// function draw() {
+//   var canvas = document.getElementById('c1');
+//   if ( ! canvas || ! canvas.getContext ) { return false; }
+//   var ctx = canvas.getContext('2d');
+//   /* Imageオブジェクトを生成 */
+//   var img = new Image();
+//   img.src = "img/code_39.png?" + new Date().getTime();
+//   /* 画像が読み込まれるのを待ってから処理を続行 */
+//   img.onload = function() {
+//     ctx.drawImage(img, 0, 0);
+//   }
+// }
 
 
 
