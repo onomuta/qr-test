@@ -15,6 +15,7 @@ Quagga.init({
     },
   },
   decoder : {
+    //ここで読み込むバーコードの種類を指定。（複数可）
     readers : ["ean_reader"]
     // readers : ["code_128_reader"]    
   }
@@ -34,6 +35,7 @@ Quagga.onProcessed(function(result) {
   drawingCanvas = Quagga.canvas.dom.overlay;
 
   if (result) {
+    //　バーコードっぽいところに緑色の枠を出す
     // if (result.boxes) {
     //   drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
     //   result.boxes.filter(function (box) {
@@ -43,12 +45,12 @@ Quagga.onProcessed(function(result) {
     //   });      
     // }
 
+    // 読み込めたバーコードに青い枠を出す
     if (result.box) {
       drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-      
       Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
     }
-    // 読み取り結果
+    // 読み取り結果 & 読み込めたバーコードに赤い線を引く
     if (result.codeResult && result.codeResult.code) {
       Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
       console.log(result.codeResult.code);
