@@ -26,7 +26,7 @@ Quagga.init({
   },
   decoder : {
     //ここで読み込むバーコードの種類を指定。（複数可）
-    readers : ["ean_reader"],
+    readers : ["ean_reader","code_128_reader"],
     // readers : ["code_128_reader"]    
     // multiple:false
   }
